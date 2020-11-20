@@ -10,13 +10,17 @@ function preload(){
 }
 
 function setup() {
-  let c = createCanvas(2000, 500);
+  let c = createCanvas(windowWidth, windowWidth/4);
+  c.parent('sketch');
+  var x = (windowWidth - width) / 2;
+  var y = (windowHeight - height) / 2;
+  c.position(x, y);
   for(let j = 0; j < 12; j++){
     sentMonth = [];
     volumeMonth = [];
     for(let i = 0; i < days; i++){
       append(sentMonth, random(0,1)); //"Simulation" von Sentiment-Werten, Befüllung des Arrays
-      append(volumeMonth, random(10, 100)); //"Simulation" von Tagestextvolumen-Werten, Befüllung des Arrays
+      append(volumeMonth, random(windowWidth*0.005, windowWidth*0.05)); //"Simulation" von Tagestextvolumen-Werten, Befüllung des Arrays
       if(random(0, 1) <= 0.1){
           volumeMonth[i] = 0;
       }
@@ -69,7 +73,7 @@ function drawCircle(page){
     stroke(0);
     fill(0);
     textSize(50);
-    textFont(myFont, 35);
+    textFont(myFont, windowWidth*.0175);
     textAlign(CENTER, CENTER);
-    text("<sanctum: "+months[page]+">", width/2, height-30);
+    text("<sanctum: "+months[page]+">", width/2, height-height*.06);
 }
