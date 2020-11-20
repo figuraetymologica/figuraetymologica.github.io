@@ -4,13 +4,15 @@ volume = []; //array mit zufälligen Tagestextvolumen-Werten
 page = 0;
 months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 var myFont;
+var c;
+info = true;
 
 function preload(){
   myFont = loadFont('AndaleMono.ttf');
 }
 
 function setup() {
-  let c = createCanvas(windowWidth, windowWidth/4);
+  c = createCanvas(windowWidth, windowWidth/4);
   c.parent('sketch');
   var x = (windowWidth - width) / 2;
   var y = (windowHeight - height) / 2;
@@ -29,21 +31,36 @@ function setup() {
     append(volume, volumeMonth);
   }
 
-  console.log(sentiment);
-  console.log(volume);
-
   drawCircle(page); //Funktion, die die Blobs zeichnet
   //saveCanvas(c, 'myCanvas', 'png');
+  infoScreen();
+}
+
+function infoScreen(){
+  fill(255, 200);
+  noStroke();
+  rect(0, 0, width, height);
+  fill(0);
+  textSize(windowWidth*.01);
+  text("<sanctum>, your chat sentiment. click to continue.", width/2, height/2 - height/30*4);
+  text("one circle: one day of the month, absent if no messages were sent that day", width/2, height/2 - height/30);
+  text("color (warm to cold), circle messines (clean to messy): positive/negative sentiment of text messages.", width/2, height/2 + height/30);
+  text("circle radius: chat messages volume", width/2, height/2 + height/30*3);
 }
 
 function mouseClicked(){
   background(255);
-  if(page < 11){
-    page++;
+  if(!info){
+    if(page < 11){
+      page++;
+    }else{
+      page = 0;
+    }
+    drawCircle(page);
   }else{
-    page = 0;
+    drawCircle(page);
+    info = false;
   }
-  drawCircle(page);
 }
 
 function drawCircle(page){
@@ -77,3 +94,4 @@ function drawCircle(page){
     textAlign(CENTER, CENTER);
     text("<sanctum: "+months[page]+">", width/2, height-height*.06);
 }
+
