@@ -5,7 +5,7 @@ var imgData = [["../content/pw/racingwinds_low.png",
                 "../content/pw/heatimg_low.png",
                 "../content/pw/emotionhub.png",
                 "../content/pw/therobots_low.png"], [
-                "../content/pw/jack_low.jpg",
+                "../content/pw/jack_low.png",
                 "../content/pw/pathfinder.jpg",
                 "../content/pw/autoring_low.jpg"], [
                 "../content/pw/whole abc_1.png",
