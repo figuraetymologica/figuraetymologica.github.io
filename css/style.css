@@ -11,11 +11,14 @@ h1, h3, p{
 
 img {
     max-width: 100%;
+    max-height: 100%;
     margin: 0;
 }
 
 .box {
     width: 100%;
+    height: 100%;
+    max-height: 25vh;
 }
 
 .info {
@@ -28,9 +31,8 @@ img {
     grid-template-areas: 
       ". header ."
       ". content .";
-    grid-template-columns: 1fr 3fr 1fr;
-    grid-gap: 20px;
-    gap: 20px;
+    grid-template-columns: 1fr 2fr 2fr;
+    gap: 3vh;
 }
 
 header{
@@ -43,7 +45,8 @@ article{
     grid-area: content;
     display: grid;
     grid-template-columns: 50% 50%;
-    gap: 5vh 2vw;
+    gap: 3vh 1vw;
+    margin-bottom: 10vh;
 }
 
 aside{
@@ -90,25 +93,4 @@ aside{
     grid-column-end: 2;
     grid-row-start: 4;
     grid-row-end: 5;
-}
-
-#box5{
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 5;
-    grid-row-end: 6;
-}
-
-#box6{
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 6;
-    grid-row-end: 7;
-}
-
-#box7{
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 7;
-    grid-row-end: 8;
 }
