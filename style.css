@@ -1,3 +1,13 @@
+@font-face {
+    font-family: ibm;
+    src: url(src/ibmplexsans-regular.ttf);
+}
+
+@font-face {
+    font-family: handjet2;
+    src: url(src/handjet-medium.ttf);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -30,10 +40,18 @@ img {
     object-fit: contain;
 }
 
+.desktopimg {
+    display: block;
+}
+
+.mobileimg {
+    display: none;
+}
+
 
 .handjet-h1 {
 
-    font-family: "Handjet", sans-serif;
+    font-family: "handjet2", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
     font-size: 2.5em;
@@ -46,7 +64,7 @@ img {
 }
 
 .handjet-h2 {
-    font-family: "Handjet", sans-serif;
+    font-family: "handjet2", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
     font-size: 1.5em;
@@ -58,7 +76,7 @@ img {
 
 
 p {
-    font-family: "IBM Plex Sans", sans-serif;
+    font-family: "ibm", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-size: 0.85em;
@@ -83,10 +101,22 @@ p {
     font-size: 0.7em;
 }
 
-@media only screen and (max-width: 600px) {
-  #content {
-    /*padding: 5% 0 0 5%;*/
-    min-width: 380x;
-    max-width:380px;
-  }
+@media only screen and (max-width: 500px) {
+    #content {
+        /*padding: 5% 0 0 5%;*/
+        min-width: 350px;
+        max-width: 70vw;
+    }
+
+    .desktopimg {
+        display: none;
+    }
+
+    .mobileimg {
+        display: block;
+    }
+
+    img {
+        max-height: 50vh;
+    }
 }
