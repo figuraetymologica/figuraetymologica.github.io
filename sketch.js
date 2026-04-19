@@ -3,13 +3,15 @@ let kk_img = [];
 let broom;
 let plopp;
 
+let vw;
+
 //init kk array, amount of kks to generate, at what speed etc
 let kks = [];
 let to_gen = 10;
 let gend = 0;
 let interval = 300;
 let dramatic_pause = 3;
-let radius = 50; //radius of kk hitbox .. hitcircle lol
+let radius; //radius of kk hitbox .. hitcircle lol
 
 //Define levels, track current level -> amouts of kks generated in lvls 1 and 2: 50, 90
 let lvl_config = [{ fc: 10, speed: 10, limit: 50 }, { fc: 7, speed: 15, limit: 90 }, { fc: 7, speed: 15, limit: 540 }];
@@ -72,11 +74,20 @@ function preload() {
 
 //resize images, init balloon decor 
 function setup() {
-  createCanvas(500, 500);
+  vw = windowWidth;
+  console.log(windowWidth);
+  if(vw <= 502){
+    vw = vw -10;
+  }else{
+    vw = 500;
+  }
+  createCanvas(vw, vw);
+  radius = 50*vw/500;
+
   background(125);
   for (let i = 0; i < kk_img.length; i++) {
-    kk_img[i].resize(0, 100);
-    broom.resize(0, 100);
+    kk_img[i].resize(0, vw/5);
+    broom.resize(0, vw/5);
   }
   imageMode(CENTER);
 
@@ -101,7 +112,7 @@ function draw() {
       noStroke();
       textFont("Verdana");
 
-      textSize(32);
+      textSize(32*vw/500);
       text("30. Geburtstag-Simulator", width / 2, height - height / 1.6);
     }
 
@@ -131,7 +142,7 @@ function draw() {
 
         //let kk(s) appear
         for (let j = 0; j < repeats; j++) {
-          kks.push({ vis: true, img: int(random(0, 9)), x: int(random(0, 500)), y: int(random(0, 500)), coveredBy: [], covering: [] });
+          kks.push({ vis: true, img: int(random(0, 9)), x: int(random(0, vw)), y: int(random(0, vw)), coveredBy: [], covering: [] });
           //check if new kk covers previous kk, add info to both
           if (kks.length > 1) {
             for (let i = 0; i < kks.length - 1; i++) {
@@ -358,7 +369,7 @@ function overlay() {
 
 //makes dialog appear letter by letter... fancy! ✨
 function write_text(dialog) {
-  textSize(16);
+  textSize(16*vw/500);
   textAlign(LEFT);
   fill(0);
   text(visible_dialog[0], 0 + width * .1, height / 2 - height * .15);
@@ -376,7 +387,7 @@ function write_text(dialog) {
 //made myself buttons.
 function myButton(txt) {
   button_active = true;
-  if (mouseX > width / 2 - 50 && mouseX < width / 2 + 50 && mouseY > height - height / 2.25 - 25 && mouseY < height - height / 2.25 + 25) {
+  if (mouseX > width / 2 - 50*vw/500 && mouseX < width / 2 + 50*vw/500 && mouseY > height - height / 2.25 - 25*vw/500 && mouseY < height - height / 2.25 + 25*vw/500) {
     fill(52, 161, 235);
     cursor(HAND);
   } else {
@@ -385,11 +396,11 @@ function myButton(txt) {
   }
 
   stroke(0);
-  rect(width / 2, height - height / 2.25, 100, 50);
+  rect(width / 2, height - height / 2.25, 100*vw/500, 50*vw/500);
   fill(0);
   noStroke();
   textFont("Verdana");
-  textSize(16);
+  textSize(16*vw/500);
   textAlign(CENTER, CENTER);
   text(txt, width / 2, height - height / 2.25);
 
@@ -409,13 +420,13 @@ function overlap(x1, x2, y1, y2, r) {
 function decorate() {
   textAlign(CENTER, CENTER);
   for (let i = 0; i < decor.length; i++) {
-    textSize(decor[i].size);
+    textSize(decor[i].size*vw/500);
     text("🎈", decor[i].x, decor[i].y);
 
     if (decor[i].y > -25) {
       decor[i].y--;
     } else {
-      decor[i].y = 550;
+      decor[i].y = vw+50;
       decor[i].x = int(random(0, width));
     }
     //decor[i].x += int(random(-2, 2));
