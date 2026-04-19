@@ -255,6 +255,110 @@ function draw() {
 
 }
 
+function touchStarted(){
+  //check if kk has been hit i.e. cleaned up
+  if (mode.game && !mode.first_tap && !mode.end) {
+    for (let i = 0; i < kks.length; i++) {
+      let d = (mouseX - kks[i].x) ** 2 + (mouseY - kks[i].y) ** 2;
+      let visible = true;
+
+      //only make the visible parts of a kk clickable in order to clean it up -> check
+      if (kks[i].coveredBy.length > 0) {
+        for (let j = 0; j < kks[i].coveredBy.length; j++) {
+          let coverer = kks[i].coveredBy[j];
+          let d = (mouseX - kks[coverer].x) ** 2 + (mouseY - kks[coverer].y) ** 2;
+
+          if (d <= radius ** 2) {
+            visible = false;
+          }
+        }
+      } else if (kks[i].coveredBy.length == 0) {
+        visible = true;
+      }
+
+      //if a kk has been "collected", remove info that it's covering others + make it invisible
+      if (d <= radius ** 2 && mouseIsPressed && visible) {
+        if (kks[i].covering.length > 0) {
+          for (let j = 0; j < kks[i].covering.length; j++) {
+            let covered = kks[i].covering[j];
+            for (let k = 0; k < kks[covered].coveredBy.length; k++) {
+              if (kks[covered].coveredBy[k] == i) {
+                kks[covered].coveredBy.splice(k, 1);
+              }
+            }
+          }
+        }
+        kks[i].vis = false;
+      }
+    }
+  }
+
+  //switch between modes via buttons
+  if (mode.start || mode.intro || mode.game) {
+    if (button_active && mouseX > width / 2 - 50 && mouseX < width / 2 + 50 && mouseY > height - height / 2.25 - 25 && mouseY < height - height / 2.25 + 25) {
+      if (mode.start) {
+        mode.start = false;
+        mode.intro = true;
+      } else if (mode.intro && current_id == intro_dialog.length - 1) {
+        mode.intro = false;
+        mode.game = true;
+        mode.first_tap = true;
+      } else if (mode.first_tap) {
+        mode.first_tap = false;
+        mode.lvl0 = true;
+      } else if (mode.lvl0) {
+        mode.lvl0 = false;
+        mode.lvl1 = true;
+      } else if (mode.lvl1) {
+        mode.lvl1 = false;
+        mode.lvl2 = true;
+      } else if (mode.lvl2) {
+        mode.lvl2 = false;
+      }
+
+      //reset dialogs after every mode
+      if (!mode.start) {
+        for (let i = 0; i < visible_dialog.length; i++) {
+          visible_dialog[i] = "";
+        }
+        current_id = 0;
+      }
+
+      if (mode.game && !mode.first_tap && !mode.lvl0) {
+        //reset lvl data
+        gend = 0;
+        kks = [];
+        if (!mode.end) {
+          curr_lvl++;
+          to_gen = lvl_config[curr_lvl].speed;
+          console.log(curr_lvl);
+          console.log(lvl_config[curr_lvl].speed);
+        }
+
+        //reset games
+        if (mode.end) {
+          mode.game = false;
+          mode.end = false;
+          //rest
+          mode.start = true;
+          to_gen = 10;
+          interval = 300;
+          dramatic_pause = 3;
+
+          //50 90
+          lvl_config = [{ fc: 10, speed: 10, limit: 50 }, { fc: 7, speed: 15, limit: 90 }, { fc: 7, speed: 15, limit: 540 }];
+          curr_lvl = 0;
+          console.log(mode);
+        }
+      }
+
+      button_active = false;
+      cursor(ARROW); //return to regular cursor look after clicking a button
+    }
+  }
+
+}
+
 function mousePressed() {
   //check if kk has been hit i.e. cleaned up
   if (mode.game && !mode.first_tap && !mode.end) {
